@@ -147,7 +147,7 @@ namespace SteamWebPipes
                 users = ConnectedClients.Count;
             }
 
-            Broadcast(new UsersOnlineEvent(users));
+            // Broadcast(new UsersOnlineEvent(users));
 
             if (users == 0 || users == LastBroadcastConnectedUsers)
             {
