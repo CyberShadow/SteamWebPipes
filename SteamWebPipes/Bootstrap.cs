@@ -28,6 +28,12 @@ namespace SteamWebPipes
         {
             Console.Title = "SteamWebPipes";
 
+            // Log to stderr instead of stdout
+            FleckLog.LogAction = (level, message, ex) => {
+                if (level >= FleckLog.Level)
+                    Console.Error.WriteLine("{0} [{1}] {2} {3}", DateTime.Now, level, message, ex);
+            };
+
             AppDomain.CurrentDomain.UnhandledException += OnSillyCrashHandler;
 
             Config = JsonSerializer.Deserialize<Configuration>(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "settings.json")));
@@ -156,6 +162,7 @@ namespace SteamWebPipes
         public static void Broadcast<T>(T ev)
         {
             var message = JsonSerializer.Serialize(ev);
+            Console.WriteLine(message);
 
             lock (ConnectedClients)
             {
@@ -205,7 +212,7 @@ namespace SteamWebPipes
 
         public static void Log(string format, params object[] args)
         {
-            Console.WriteLine("[" + DateTime.Now.ToString("R") + "] " + string.Format(format, args));
+            Console.Error.WriteLine("[" + DateTime.Now.ToString("R") + "] " + string.Format(format, args));
         }
     }
 }

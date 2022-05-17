@@ -61,12 +61,7 @@ namespace SteamWebPipes
             var currentHash = TickerHash;
             var random = new Random();
             
-            if (currentHash == 0)
-            {
-                Bootstrap.Log("Waiting a minute before requesting changes, to give a chance for users to reconnect");
-                await Task.Delay(60000 + random.Next(10000));
-            }
-            else
+            if (currentHash != 0)
             {
                 Bootstrap.Log($"PICS ticker started #{currentHash}");
             }
